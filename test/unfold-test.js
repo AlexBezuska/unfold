@@ -1,8 +1,9 @@
 "use strict";
 
-var unfold = require("../lib/unfold");
+var fs = require("fs");
 var mockFs = require("mock-fs");
 var test = require("tape-catch");
+var unfold = require("../lib/unfold");
 
 function setup(t, fakeFs) {
 	mockFs.restore();
@@ -24,9 +25,13 @@ test("missing destinationDirectory folder should return error", function(t) {
 	});
 });
 test("nonexistant sourceDirectory folder should return error", function(t) {
-	setup(t, {});
-	t.plan(1);
+	setup(t, { src: { "test.txt": "hello world" } });
+	t.plan(3);
 	unfold({ sourceDirectory: "src", destinationDirectory: "dest" }, function(err) {
-		t.ok(err, "should have an error");
+		t.notOk(err, "should not have an error");
+		fs.readFile("dest/test.txt", { encoding: "utf8" }, function(err2, data) {
+			t.notOk(err2, "should not have an error");
+			t.equal(data, "hello world", "file should be copied to destination");
+		});
 	});
 });
