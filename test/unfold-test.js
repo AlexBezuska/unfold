@@ -16,3 +16,10 @@ test("missing sourceDirectory folder should return error", function(t) {
 		t.ok(err, "should have an error");
 	});
 });
+test("missing destinationDirectory folder should return error", function(t) {
+	setup(t, {});
+	t.plan(1);
+	unfold({ sourceDirectory: "src" }, function(err) {
+		t.ok(err, "should have an error");
+	});
+});
