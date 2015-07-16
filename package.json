@@ -22,7 +22,7 @@
   "bin": "bin/unfold.js",
   "preferGlobal": true,
   "dependencies": {
-    "fs-walk-breadth-first": "0.0.1",
+    "fs-walk-breadth-first": "1.0.0",
     "handlebars": "^3.0.3",
     "merge": "^1.2.0",
     "node-sass": "^3.1.2",

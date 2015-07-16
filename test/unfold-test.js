@@ -25,7 +25,14 @@ test("missing destinationDirectory folder should return error", function(t) {
 	});
 });
 test("nonexistant sourceDirectory folder should return error", function(t) {
-	setup(t, { src: { "test.txt": "hello world" } });
+	setup(t, {});
+	t.plan(1);
+	unfold({ sourceDirectory: "src", destinationDirectory: "dest" }, function(err) {
+		t.ok(err, "should have an error");
+	});
+});
+test("text file should be copied to destination", function(t) {
+	setup(t, { src: { "test.txt": "hello world" }, dest: {} });
 	t.plan(3);
 	unfold({ sourceDirectory: "src", destinationDirectory: "dest" }, function(err) {
 		t.notOk(err, "should not have an error");
