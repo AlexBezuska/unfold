@@ -84,3 +84,28 @@ test("plugin can modify file data", function(t) {
 		});
 	});
 });
+test("plugin can make two files from one file", function(t) {
+	setup(t, {
+		src: { "test.txt": "hello world" },
+		dest: {},
+		"plugins/doubler.js": "module.exports = function(config, file, callback) { var file2 = { path: file.path + '.bak', stats: file.stats, data: file.data }; callback(undefined, [file, file2]); };"
+	});
+	t.plan(5);
+	unfold({
+		sourceDirectory: "src",
+		destinationDirectory: "dest",
+		plugins: [
+			"../plugins/doubler"
+		]
+	}, function(err) {
+		t.notOk(err, "should not have an error");
+		fs.readFile("dest/test.txt", "utf8", function(err2, data) {
+			t.notOk(err2, "should not have an error");
+			t.equal(data, "hello world", "file should have new path");
+			fs.readFile("dest/test.txt.bak", "utf8", function(err3, data2) {
+				t.notOk(err3, "should not have an error");
+				t.equal(data2, "hello world", "file should have new path");
+			});
+		});
+	});
+});
