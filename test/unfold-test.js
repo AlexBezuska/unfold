@@ -43,8 +43,10 @@ test("text file should be copied to destination", function(t) {
 	});
 });
 test("plugin can modify file data", function(t) {
-	setup(t, { src: { "test.txt": "hello world" }, dest: {},
-   "plugins/yolo.js": "module.exports = function(file, callback) { file.data='yolo'; callback(undefined, file); };"
+	setup(t, {
+		src: { "test.txt": "hello world" },
+		dest: {},
+		"plugins/yolo.js": "module.exports = function(file, callback) { file.data='yolo'; callback(undefined, file); };"
 	});
 	t.plan(3);
 	unfold({
