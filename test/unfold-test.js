@@ -42,6 +42,27 @@ test("text file should be copied to destination", function(t) {
 		});
 	});
 });
+test("plugin can modify file path", function(t) {
+	setup(t, {
+		src: { "test.txt": "hello world" },
+		dest: {},
+		"plugins/backup.js": "module.exports = function(file, callback) { file.path+='.bak'; callback(undefined, file); };"
+	});
+	t.plan(3);
+	unfold({
+		sourceDirectory: "src",
+		destinationDirectory: "dest",
+		plugins: [
+			"../plugins/backup"
+		]
+	}, function(err) {
+		t.notOk(err, "should not have an error");
+		fs.readFile("dest/test.txt.bak", "utf8", function(err2, data) {
+			t.notOk(err2, "should not have an error");
+			t.equal(data, "hello world", "file should have new path");
+		});
+	});
+});
 test("plugin can modify file data", function(t) {
 	setup(t, {
 		src: { "test.txt": "hello world" },
