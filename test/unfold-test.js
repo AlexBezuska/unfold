@@ -36,7 +36,7 @@ test("text file should be copied to destination", function(t) {
 	t.plan(3);
 	unfold({ sourceDirectory: "src", destinationDirectory: "dest" }, function(err) {
 		t.notOk(err, "should not have an error");
-		fs.readFile("dest/test.txt", { encoding: "utf8" }, function(err2, data) {
+		fs.readFile("dest/test.txt", "utf8", function(err2, data) {
 			t.notOk(err2, "should not have an error");
 			t.equal(data, "hello world", "file should be copied to destination");
 		});
@@ -55,7 +55,7 @@ test("plugin can modify file data", function(t) {
 		]
 	}, function(err) {
 		t.notOk(err, "should not have an error");
-		fs.readFile("dest/test.txt", { encoding: "utf8" }, function(err2, data) {
+		fs.readFile("dest/test.txt", "utf8", function(err2, data) {
 			t.notOk(err2, "should not have an error");
 			t.equal(data, "yolo", "file should have new data");
 		});
