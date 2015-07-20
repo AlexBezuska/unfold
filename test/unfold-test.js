@@ -46,7 +46,7 @@ test("plugin can modify file path", function(t) {
 	setup(t, {
 		src: { "test.txt": "hello world" },
 		dest: {},
-		"plugins/backup.js": "module.exports = function(config, file, callback) { file.path+='.bak'; callback(undefined, file); };"
+		"plugins/backup.js": "module.exports = { process: function(config, file, callback) { file.path+='.bak'; callback(undefined, file); } };"
 	});
 	t.plan(3);
 	unfold({
@@ -67,7 +67,7 @@ test("plugin can modify file data", function(t) {
 	setup(t, {
 		src: { "test.txt": "hello world" },
 		dest: {},
-		"plugins/yolo.js": "module.exports = function(config, file, callback) { file.data='yolo'; callback(undefined, file); };"
+		"plugins/yolo.js": "module.exports = { process: function(config, file, callback) { file.data='yolo'; callback(undefined, file); } };"
 	});
 	t.plan(3);
 	unfold({
@@ -88,7 +88,7 @@ test("plugin can make two files from one file", function(t) {
 	setup(t, {
 		src: { "test.txt": "hello world" },
 		dest: {},
-		"plugins/doubler.js": "module.exports = function(config, file, callback) { var file2 = { path: file.path + '.bak', stats: file.stats, data: file.data }; callback(undefined, [file, file2]); };"
+		"plugins/doubler.js": "module.exports = { process: function(config, file, callback) { var file2 = { path: file.path + '.bak', stats: file.stats, data: file.data }; callback(undefined, [file, file2]); } };"
 	});
 	t.plan(5);
 	unfold({
