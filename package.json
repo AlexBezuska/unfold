@@ -34,8 +34,7 @@
     "mocha": "^2.2.5",
     "mock-fs": "^3.0.0",
     "tap-spec": "^4.0.2",
-    "tape": "^4.0.0",
-    "tape-catch": "^1.0.4"
+    "tape": "^4.0.0"
   },
   "scripts": {
     "lint": "eslint bin lib test",

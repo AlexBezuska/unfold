@@ -1,6 +1,6 @@
 "use strict";
 
-var test = require("tape-catch");
+var test = require("tape");
 var srcToDestPath = require("../lib/src-to-dest-path");
 
 test("with src and dest folders should rewrite path", function(t) {

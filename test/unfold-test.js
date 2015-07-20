@@ -2,7 +2,7 @@
 
 var fs = require("fs");
 var mockFs = require("mock-fs");
-var test = require("tape-catch");
+var test = require("tape");
 var unfold = require("../lib/unfold");
 
 function setup(t, fakeFs) {
@@ -43,18 +43,19 @@ test("text file should be copied to destination", function(t) {
 	});
 });
 test("plugin can modify file path", function(t) {
-	setup(t, {
-		src: { "test.txt": "hello world" },
-		dest: {},
-		"plugins/backup.js": "module.exports = { process: function(config, file, callback) { file.path+='.bak'; callback(undefined, file); } };"
-	});
+	mockFs.restore();
 	t.plan(3);
 	unfold({
 		sourceDirectory: "src",
 		destinationDirectory: "dest",
 		plugins: [
-			"../plugins/backup"
-		]
+			"../test/plugins/mock-fs",
+			"../test/plugins/backup"
+		],
+		fs: {
+			src: { "test.txt": "hello world" },
+			dest: {}
+		}
 	}, function(err) {
 		t.notOk(err, "should not have an error");
 		fs.readFile("dest/test.txt.bak", "utf8", function(err2, data) {
@@ -64,18 +65,19 @@ test("plugin can modify file path", function(t) {
 	});
 });
 test("plugin can modify file data", function(t) {
-	setup(t, {
-		src: { "test.txt": "hello world" },
-		dest: {},
-		"plugins/yolo.js": "module.exports = { process: function(config, file, callback) { file.data='yolo'; callback(undefined, file); } };"
-	});
+	mockFs.restore();
 	t.plan(3);
 	unfold({
 		sourceDirectory: "src",
 		destinationDirectory: "dest",
 		plugins: [
-			"../plugins/yolo"
-		]
+			"../test/plugins/mock-fs",
+			"../test/plugins/yolo"
+		],
+		fs: {
+			src: { "test.txt": "hello world" },
+			dest: {}
+		}
 	}, function(err) {
 		t.notOk(err, "should not have an error");
 		fs.readFile("dest/test.txt", "utf8", function(err2, data) {
@@ -85,18 +87,19 @@ test("plugin can modify file data", function(t) {
 	});
 });
 test("plugin can make two files from one file", function(t) {
-	setup(t, {
-		src: { "test.txt": "hello world" },
-		dest: {},
-		"plugins/doubler.js": "module.exports = { process: function(config, file, callback) { var file2 = { path: file.path + '.bak', stats: file.stats, data: file.data }; callback(undefined, [file, file2]); } };"
-	});
+	mockFs.restore();
 	t.plan(5);
 	unfold({
 		sourceDirectory: "src",
 		destinationDirectory: "dest",
 		plugins: [
-			"../plugins/doubler"
-		]
+			"../test/plugins/mock-fs",
+			"../test/plugins/doubler"
+		],
+		fs: {
+			src: { "test.txt": "hello world" },
+			dest: {}
+		}
 	}, function(err) {
 		t.notOk(err, "should not have an error");
 		fs.readFile("dest/test.txt", "utf8", function(err2, data) {
