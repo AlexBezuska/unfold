@@ -54,6 +54,22 @@ test("text file should be copied to destination", function(t) {
 		});
 	});
 });
+test("nested text file should be copied to nested destination", function(t) {
+	mockFs.restore();
+	t.plan(3);
+	unfold({
+		sourceDirectory: "src",
+		destinationDirectory: "dest",
+		plugins: ["../test/plugins/mock-fs"],
+		fs: { "src/folder/test.txt": "hello world", dest: {} }
+	}, function(err) {
+		t.notOk(err, "should not have an error");
+		fs.readFile("dest/folder/test.txt", "utf8", function(err2, data) {
+			t.notOk(err2, "should not have an error");
+			t.equal(data, "hello world", "file should be copied to destination");
+		});
+	});
+});
 test("plugin can modify file path", function(t) {
 	mockFs.restore();
 	t.plan(3);
