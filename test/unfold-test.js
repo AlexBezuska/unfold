@@ -61,7 +61,7 @@ test("nested text file should be copied to nested destination", function(t) {
 		sourceDirectory: "src",
 		destinationDirectory: "dest",
 		plugins: ["../test/plugins/mock-fs"],
-		fs: { "src/folder/test.txt": "hello world", dest: {} }
+		fs: { "src/folder/test.txt": "hello world" }
 	}, function(err) {
 		t.notOk(err, "should not have an error");
 		fs.readFile("dest/folder/test.txt", "utf8", function(err2, data) {
