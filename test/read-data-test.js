@@ -4,6 +4,15 @@ var mockFs = require("mock-fs");
 var test = require("tape");
 var readData = require("../lib/plugins/read-data");
 
+test("missing dataDirectory folder should not return error", function(t) {
+	mockFs.restore();
+	mockFs({});
+	t.plan(2);
+	readData.init({}, function(err, config) {
+		t.notOk(err, "should not have an error");
+		t.deepEqual(config.data, {}, "data should exist and be empty");
+	});
+});
 test("nonexistant dataDirectory folder should return error", function(t) {
 	mockFs.restore();
 	mockFs({});
