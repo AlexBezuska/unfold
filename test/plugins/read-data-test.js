@@ -2,7 +2,7 @@
 
 var mockFs = require("mock-fs");
 var test = require("tape");
-var readData = require("../lib/plugins/read-data");
+var readData = require("../../lib/plugins/read-data");
 
 test("missing dataDirectory folder should not return error", function(t) {
 	mockFs.restore();
