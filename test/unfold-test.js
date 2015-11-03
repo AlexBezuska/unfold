@@ -9,7 +9,7 @@ test("missing sourceDirectory folder should return error", function(t) {
 	mockFs.restore();
 	t.plan(1);
 	unfold({
-		plugins: ["../test/plugins/mock-fs"],
+		plugins: ["../test/test-plugins/mock-fs"],
 		fs: {}
 	}, function(err) {
 		t.ok(err, "should have an error");
@@ -20,7 +20,7 @@ test("missing destinationDirectory folder should return error", function(t) {
 	t.plan(1);
 	unfold({
 		sourceDirectory: "src",
-		plugins: ["../test/plugins/mock-fs"],
+		plugins: ["../test/test-plugins/mock-fs"],
 		fs: {}
 	}, function(err) {
 		t.ok(err, "should have an error");
@@ -32,7 +32,7 @@ test("nonexistant sourceDirectory folder should return error", function(t) {
 	unfold({
 		sourceDirectory: "src",
 		destinationDirectory: "dest",
-		plugins: ["../test/plugins/mock-fs"],
+		plugins: ["../test/test-plugins/mock-fs"],
 		fs: {}
 	}, function(err) {
 		t.ok(err, "should have an error");
@@ -44,7 +44,7 @@ test("text file should be copied to destination", function(t) {
 	unfold({
 		sourceDirectory: "src",
 		destinationDirectory: "dest",
-		plugins: ["../test/plugins/mock-fs"],
+		plugins: ["../test/test-plugins/mock-fs"],
 		fs: { src: { "test.txt": "hello world" }, dest: {} }
 	}, function(err) {
 		t.notOk(err, "should not have an error");
@@ -60,7 +60,7 @@ test("nested text file should be copied to nested destination", function(t) {
 	unfold({
 		sourceDirectory: "src",
 		destinationDirectory: "dest",
-		plugins: ["../test/plugins/mock-fs"],
+		plugins: ["../test/test-plugins/mock-fs"],
 		fs: { "src/folder/test.txt": "hello world" }
 	}, function(err) {
 		t.notOk(err, "should not have an error");
@@ -77,8 +77,8 @@ test("plugin can modify file path", function(t) {
 		sourceDirectory: "src",
 		destinationDirectory: "dest",
 		plugins: [
-			"../test/plugins/mock-fs",
-			"../test/plugins/backup"
+			"../test/test-plugins/mock-fs",
+			"../test/test-plugins/backup"
 		],
 		fs: {
 			src: { "test.txt": "hello world" },
@@ -99,8 +99,8 @@ test("plugin can modify file data", function(t) {
 		sourceDirectory: "src",
 		destinationDirectory: "dest",
 		plugins: [
-			"../test/plugins/mock-fs",
-			"../test/plugins/yolo"
+			"../test/test-plugins/mock-fs",
+			"../test/test-plugins/yolo"
 		],
 		fs: {
 			src: { "test.txt": "hello world" },
@@ -121,8 +121,8 @@ test("plugin can make two files from one file", function(t) {
 		sourceDirectory: "src",
 		destinationDirectory: "dest",
 		plugins: [
-			"../test/plugins/mock-fs",
-			"../test/plugins/doubler"
+			"../test/test-plugins/mock-fs",
+			"../test/test-plugins/doubler"
 		],
 		fs: {
 			src: { "test.txt": "hello world" },
